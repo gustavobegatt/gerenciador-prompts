@@ -66,11 +66,11 @@ form.addEventListener("submit", async (evento) => {
     if (idPrompt) {
       await api("/prompts/" + idPrompt, { method: "PUT", corpo });
       mostrarMensagem("Prompt atualizado!", "sucesso");
-      irParaDepois("prompts.html");
+      irParaDepois(pagina("prompts.html"));
     } else {
       await api("/prompts", { method: "POST", corpo });
       mostrarMensagem("Prompt criado!", "sucesso");
-      irParaDepois(corpo.id_projeto ? "projeto.html?id=" + corpo.id_projeto : "prompts.html");
+      irParaDepois(corpo.id_projeto ? pagina("projeto.html?id=") + corpo.id_projeto : pagina("prompts.html"));
     }
   } catch (erro) {
     mostrarMensagem(erro.message, "erro");

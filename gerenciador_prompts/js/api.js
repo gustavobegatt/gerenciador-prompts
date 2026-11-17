@@ -3,6 +3,15 @@
 // Endereço da API Flask (python app.py)
 const API_URL = "http://127.0.0.1:5000";
 
+// ----- Caminhos: index.html fica na raiz e as demais páginas ficam em pages/ -----
+const NA_PASTA_PAGES = window.location.pathname.includes("/pages/");
+const RAIZ = NA_PASTA_PAGES ? "../" : "";
+// pagina("prompts.html") devolve o caminho certo a partir da página atual
+function pagina(nome) {
+  if (nome.startsWith("index.html")) return RAIZ + nome;
+  return (NA_PASTA_PAGES ? "" : "pages/") + nome;
+}
+
 // ----- Modo demonstração (só no GitHub Pages) -----
 // O GitHub Pages guarda apenas arquivos estáticos: não roda Python nem MySQL.
 // Quando o site está em *.github.io (ou é aberto com ?demo=1), as chamadas vão
@@ -23,7 +32,7 @@ function carregarDemo() {
   if (!promessaDemo) {
     promessaDemo = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "js/demo-api.js";
+      script.src = RAIZ + "js/demo-api.js";
       script.onload = resolve;
       script.onerror = () => reject(new Error("Não foi possível carregar o modo demonstração."));
       document.head.appendChild(script);

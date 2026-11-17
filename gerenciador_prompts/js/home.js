@@ -8,7 +8,7 @@ const MESES_CURTOS = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "s
 // ---------- quadro de projetos ----------
 function cartaoProjeto(p) {
   return `
-    <a class="cartao cartao--${escapeHtml(p.status)}" href="projeto.html?id=${p.id_projeto}">
+    <a class="cartao cartao--${escapeHtml(p.status)}" href="${pagina('projeto.html?id=' + p.id_projeto)}">
       <h3 class="cartao__titulo">${escapeHtml(p.nome)}</h3>
       <p class="cartao__texto">${escapeHtml(p.descricao) || "Sem descrição."}</p>
       <div class="cartao__rodape">
@@ -21,7 +21,7 @@ function cartaoProjeto(p) {
 function cartaoPromptRecente(p) {
   const previa = p.texto.length > 70 ? p.texto.slice(0, 70) + "…" : p.texto;
   return `
-    <a class="cartao" href="prompts.html">
+    <a class="cartao" href="${pagina('prompts.html')}">
       <h3 class="cartao__titulo">${escapeHtml(p.titulo)}</h3>
       <p class="cartao__texto" style="margin:0">${escapeHtml(previa)}</p>
     </a>`;

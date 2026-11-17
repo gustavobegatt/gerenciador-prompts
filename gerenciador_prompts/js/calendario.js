@@ -45,14 +45,14 @@ function montarEventos(vinculos) {
     if (!prompt || !projeto) return;
     adicionarEvento(v.data_uso, {
       tipo: "uso", titulo: prompt.titulo, sub: "em " + projeto.nome,
-      href: "projeto.html?id=" + projeto.id_projeto,
+      href: pagina("projeto.html?id=") + projeto.id_projeto,
     });
   });
   projetos.forEach(p => adicionarEvento(p.data_criacao, {
-    tipo: "projeto", titulo: p.nome, sub: "Projeto criado", href: "projeto.html?id=" + p.id_projeto,
+    tipo: "projeto", titulo: p.nome, sub: "Projeto criado", href: pagina("projeto.html?id=") + p.id_projeto,
   }));
   prompts.forEach(p => adicionarEvento(p.data_criacao, {
-    tipo: "prompt", titulo: p.titulo, sub: "Prompt criado", href: "prompts.html",
+    tipo: "prompt", titulo: p.titulo, sub: "Prompt criado", href: pagina("prompts.html"),
   }));
   Object.values(eventos).forEach(lista => lista.sort((a, b) => ORDEM.indexOf(a.tipo) - ORDEM.indexOf(b.tipo)));
 }

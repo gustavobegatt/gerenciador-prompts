@@ -14,7 +14,7 @@ function mostrarErroPagina(mensagem) {
   document.getElementById("carregando").hidden = true;
   document.getElementById("conteudo").hidden = true;
   const erro = document.getElementById("erro-pagina");
-  erro.innerHTML = escapeHtml(mensagem) + ' <a href="index.html">Voltar ao início</a>';
+  erro.innerHTML = escapeHtml(mensagem) + ' <a href="' + pagina("index.html") + '">Voltar ao início</a>';
   erro.hidden = false;
 }
 
@@ -26,8 +26,8 @@ function mostrarProjeto() {
   selo.textContent = projeto.status;
   selo.className = "selo selo--" + projeto.status;
   document.getElementById("descricao").textContent = projeto.descricao || "Sem descrição.";
-  document.getElementById("btn-editar").href = "projeto-form.html?id=" + projeto.id_projeto;
-  document.getElementById("link-novo-prompt").href = "prompt-form.html?projeto=" + projeto.id_projeto;
+  document.getElementById("btn-editar").href = pagina("projeto-form.html?id=") + projeto.id_projeto;
+  document.getElementById("link-novo-prompt").href = pagina("prompt-form.html?projeto=") + projeto.id_projeto;
   document.getElementById("carregando").hidden = true;
   document.getElementById("conteudo").hidden = false;
 }
@@ -128,7 +128,7 @@ async function excluirProjeto() {
   try {
     await api("/projetos/" + idProjeto, { method: "DELETE" });
     mostrarMensagem("Projeto excluído.", "sucesso");
-    irParaDepois("index.html");
+    irParaDepois(pagina("index.html"));
   } catch (erro) {
     mostrarMensagem(erro.message, "erro");
   }

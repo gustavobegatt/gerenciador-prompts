@@ -21,7 +21,7 @@ async function iniciar() {
   document.getElementById("titulo-pagina").textContent = "Editar projeto";
   document.getElementById("migalha-atual").textContent = "Editar projeto";
   document.title = "Editar projeto — Gerenciador de Prompts";
-  document.getElementById("btn-cancelar").href = "projeto.html?id=" + idProjeto;
+  document.getElementById("btn-cancelar").href = pagina("projeto.html?id=") + idProjeto;
   try {
     const projeto = await api("/projetos/" + idProjeto);
     campoNome.value = projeto.nome;
@@ -48,11 +48,11 @@ form.addEventListener("submit", async (evento) => {
     if (idProjeto) {
       await api("/projetos/" + idProjeto, { method: "PUT", corpo });
       mostrarMensagem("Projeto atualizado!", "sucesso");
-      irParaDepois("projeto.html?id=" + idProjeto);
+      irParaDepois(pagina("projeto.html?id=") + idProjeto);
     } else {
       const resposta = await api("/projetos", { method: "POST", corpo });
       mostrarMensagem("Projeto criado!", "sucesso");
-      irParaDepois("projeto.html?id=" + resposta.id_projeto);
+      irParaDepois(pagina("projeto.html?id=") + resposta.id_projeto);
     }
   } catch (erro) {
     mostrarMensagem(erro.message, "erro");

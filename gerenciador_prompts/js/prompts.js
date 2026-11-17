@@ -15,7 +15,7 @@ function cartaoPrompt(p) {
       <span class="data">Criado em ${formatarData(p.data_criacao)}</span>
       <div class="acoes">
         <button type="button" class="btn btn--primario btn--pequeno" data-acao="copiar" data-id="${p.id_prompt}">Copiar</button>
-        <a class="btn btn--pequeno" href="prompt-form.html?id=${p.id_prompt}">Editar</a>
+        <a class="btn btn--pequeno" href="${pagina('prompt-form.html?id=' + p.id_prompt)}">Editar</a>
         <button type="button" class="btn btn--pequeno btn--perigo" data-acao="excluir" data-id="${p.id_prompt}">Excluir</button>
       </div>
     </article>`;
