@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário — Gerenciador de Prompts</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script>try { document.documentElement.dataset.tema = localStorage.getItem("tema") === "claro" ? "claro" : "escuro"; } catch (e) {}</script>
+</head>
+<body>
+  <div class="app">
+    <aside class="menu-lateral">
+      <a href="index.html" class="menu-logo"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5.5 9.2A2 2 0 006.2 21h11.6a2 2 0 001.7-2.8L14 9V3"/><path d="M7.5 15h9"/></svg><span>PromptLab</span></a>
+      <nav class="menu-nav" aria-label="Menu principal">
+        <a href="index.html" class="menu-item"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Início</span></a>
+        <a href="calendario.html" class="menu-item ativo" aria-current="page"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Calendário</span></a>
+        <a href="prompts.html" class="menu-item"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Prompts</span></a>
+      </nav>
+    </aside>
+
+    <div class="area">
+      <main>
+        <div class="topo-pagina">
+          <div>
+            <h1>Calendário</h1>
+            <p class="subtitulo">Cada prompt adicionado a um projeto aparece no dia em que foi usado.</p>
+          </div>
+          <div class="filtros" role="group" aria-label="Tipos de item">
+            <label class="filtro ev--uso"><input type="checkbox" data-tipo="uso" checked><span class="ponto"></span>Prompt usado</label>
+            <label class="filtro ev--projeto"><input type="checkbox" data-tipo="projeto" checked><span class="ponto"></span>Projeto criado</label>
+            <label class="filtro ev--prompt"><input type="checkbox" data-tipo="prompt" checked><span class="ponto"></span>Prompt criado</label>
+          </div>
+        </div>
+
+        <div class="calendario-layout">
+          <section class="bloco" aria-label="Calendário do mês">
+            <div class="cal-topo">
+              <h2 class="cal-titulo" id="cal-titulo"></h2>
+              <div class="acoes">
+                <button type="button" class="btn btn--pequeno" id="cal-hoje">Hoje</button>
+                <button type="button" class="btn btn--pequeno btn--icone" id="cal-anterior" aria-label="Mês anterior">‹</button>
+                <button type="button" class="btn btn--pequeno btn--icone" id="cal-proximo" aria-label="Próximo mês">›</button>
+              </div>
+            </div>
+            <div class="cal-semana" aria-hidden="true">
+              <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+            </div>
+            <div class="cal-grade" id="cal-grade"><p class="estado">Carregando...</p></div>
+          </section>
+
+          <aside class="bloco dia-painel" aria-live="polite" aria-label="Dia selecionado">
+            <h2 class="dia-titulo" id="dia-titulo"></h2>
+            <ul class="evento-lista" id="dia-eventos"></ul>
+
+            <form class="form-dia" id="form-dia" novalidate>
+              <h3>Registrar uso neste dia</h3>
+              <select id="dia-projeto" aria-label="Projeto"></select>
+              <select id="dia-prompt" aria-label="Prompt"></select>
+              <button type="submit" class="btn btn--primario" id="dia-adicionar">Adicionar</button>
+            </form>
+
+            <div class="resumo">
+              <h3 id="resumo-titulo">Resumo do mês</h3>
+              <div id="resumo-mes"></div>
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      <footer class="rodape">
+        Rodapé — © 2026 Gerenciador de Prompts
+      </footer>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/calendario.js"></script>
+</body>
+</html>

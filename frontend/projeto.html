@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto — Gerenciador de Prompts</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script>try { document.documentElement.dataset.tema = localStorage.getItem("tema") === "claro" ? "claro" : "escuro"; } catch (e) {}</script>
+</head>
+<body>
+  <div class="app">
+    <aside class="menu-lateral">
+      <a href="index.html" class="menu-logo"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5.5 9.2A2 2 0 006.2 21h11.6a2 2 0 001.7-2.8L14 9V3"/><path d="M7.5 15h9"/></svg><span>PromptLab</span></a>
+      <nav class="menu-nav" aria-label="Menu principal">
+        <a href="index.html" class="menu-item ativo" aria-current="page"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Início</span></a>
+        <a href="calendario.html" class="menu-item"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Calendário</span></a>
+        <a href="prompts.html" class="menu-item"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Prompts</span></a>
+      </nav>
+    </aside>
+
+    <div class="area">
+      <main>
+        <p class="estado" id="carregando">Carregando...</p>
+        <p class="estado estado--erro" id="erro-pagina" hidden></p>
+
+        <div id="conteudo" hidden>
+          <nav class="migalhas" aria-label="Você está em">
+            <a href="index.html">Início</a> &gt; <span id="migalha-nome"></span>
+          </nav>
+
+          <div class="detalhe-topo">
+            <h1 id="nome"></h1>
+            <span class="selo" id="status"></span>
+            <div class="acoes">
+              <a class="btn" id="btn-editar" href="projeto-form.html">Editar projeto</a>
+              <button type="button" class="btn btn--perigo" id="btn-excluir">Excluir</button>
+            </div>
+          </div>
+
+          <section class="descricao">
+            <h2 class="rotulo">Descrição</h2>
+            <p id="descricao"></p>
+          </section>
+
+          <section aria-labelledby="titulo-prompts">
+            <div class="secao-topo">
+              <h2 id="titulo-prompts">Prompts deste projeto</h2>
+              <button type="button" class="btn btn--primario" id="btn-adicionar">+ Adicionar prompt</button>
+            </div>
+
+            <div class="painel" id="painel-adicionar" hidden>
+              <select id="select-prompt" aria-label="Escolha um prompt para adicionar"></select>
+              <label class="painel__data">Data de uso <input type="date" id="data-uso"></label>
+              <button type="button" class="btn btn--primario" id="btn-confirmar">Adicionar</button>
+              <button type="button" class="btn" id="btn-cancelar">Cancelar</button>
+              <a class="data" id="link-novo-prompt" href="prompt-form.html">ou criar um novo prompt</a>
+            </div>
+
+            <div class="tabela-wrap">
+              <table class="tabela">
+                <thead>
+                  <tr>
+                    <th scope="col">Prompt</th>
+                    <th scope="col">Texto (prévia)</th>
+                    <th scope="col">Data de uso</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-corpo"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="rodape">
+        Rodapé — © 2026 Gerenciador de Prompts
+      </footer>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/projeto.js"></script>
+</body>
+</html>
