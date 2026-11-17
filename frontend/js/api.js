@@ -3,6 +3,52 @@
 // Endereço da API Flask (python app.py)
 const API_URL = "http://127.0.0.1:5000";
 
+// ----- Modo demonstração (só no GitHub Pages) -----
+// O GitHub Pages guarda apenas arquivos estáticos: não roda Python nem MySQL.
+// Quando o site está em *.github.io (ou é aberto com ?demo=1), as chamadas vão
+// para js/demo-api.js, que imita a API Flask guardando os dados no navegador.
+// Rodando no computador (python app.py), nada disso é usado: o site fala com a API real.
+function detectarModoDemo() {
+  let demo = window.location.hostname.endsWith(".github.io");
+  try {
+    if (new URLSearchParams(window.location.search).get("demo") === "1") sessionStorage.setItem("demo", "1");
+    if (sessionStorage.getItem("demo") === "1") demo = true;
+  } catch (e) { /* sem sessionStorage: ignora */ }
+  return demo;
+}
+const MODO_DEMO = detectarModoDemo();
+
+let promessaDemo = null;
+function carregarDemo() {
+  if (!promessaDemo) {
+    promessaDemo = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "js/demo-api.js";
+      script.onload = resolve;
+      script.onerror = () => reject(new Error("Não foi possível carregar o modo demonstração."));
+      document.head.appendChild(script);
+    });
+  }
+  return promessaDemo;
+}
+
+// Faixa de aviso no topo: deixa claro que são dados de exemplo
+function mostrarFaixaDemo() {
+  const area = document.querySelector(".area");
+  if (!MODO_DEMO || !area) return;
+  const faixa = document.createElement("div");
+  faixa.className = "faixa-demo";
+  faixa.innerHTML = '<span><strong>Modo demonstração.</strong> Os dados são de exemplo e ficam só neste navegador. ' +
+    'A versão completa usa a API Flask e o MySQL (veja o README).</span>' +
+    '<button type="button" class="btn btn--pequeno" id="demo-restaurar">Restaurar dados de exemplo</button>';
+  area.insertBefore(faixa, area.firstChild);
+  document.getElementById("demo-restaurar").addEventListener("click", async () => {
+    await carregarDemo();
+    window.demoApi.restaurar();
+    window.location.reload();
+  });
+}
+
 /**
  * Faz uma requisição à API e devolve o JSON.
  * Se a API responder com erro (400, 404, 500...), lança um Error
@@ -15,6 +61,14 @@ async function api(caminho, opcoes = {}) {
     config.headers = { "Content-Type": "application/json" };
     config.body = JSON.stringify(config.corpo);
     delete config.corpo;
+  }
+
+  // No GitHub Pages não existe API: usa a demonstração (js/demo-api.js)
+  if (MODO_DEMO) {
+    await carregarDemo();
+    const { status, dados } = window.demoApi(caminho, config.method || "GET", config.body ? JSON.parse(config.body) : {});
+    if (status >= 400) throw new Error(dados.erro || "Erro inesperado (código " + status + ").");
+    return dados;
   }
 
   let resposta;
@@ -93,6 +147,7 @@ function criarBotaoTema() {
   aplicarTema(document.documentElement.dataset.tema === "claro" ? "claro" : "escuro");
 }
 criarBotaoTema();
+mostrarFaixaDemo();
 
 // ----- Datas no horário local (toISOString usaria UTC e erraria o dia à noite) -----
 function dataParaISO(data) {
